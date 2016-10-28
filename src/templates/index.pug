@@ -1,0 +1,13 @@
+doctype
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    title= config.package.name
+    meta(name='description' content!=config.package.description)
+    meta(name='keywords' content=config.package.keywords.join(', '))
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    if config.isProduction
+      link(rel='stylesheet' href=`${ config.assets.styles }/style.css`)
+  body
+    script(src=`${ config.assets.scripts }/main.js`)
