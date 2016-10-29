@@ -1,5 +1,6 @@
 import path from 'path';
 import autoprefixer from 'autoprefixer';
+import colorFunction from 'postcss-color-function';
 
 import config from '../config';
 import loaders, { cssLoader } from './webpack.loaders';
@@ -56,6 +57,7 @@ export default {
       browsers: ['last 3 versions'],
       cascade: false,
     }),
+    colorFunction(),
   ],
 
   sassLoader: {

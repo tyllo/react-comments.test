@@ -51,6 +51,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-pug": "^3.1.0",
     "node-sass": "^3.10.1",
+    "postcss-color-function": "^2.0.1",
     "postcss-loader": "^1.0.0",
     "pug": "^2.0.0-beta6",
     "react-css-modules": "^3.7.10",

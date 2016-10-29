@@ -1,0 +1,67 @@
+$button-color: lightgray;
+$counter-chars-color: $button-color;
+
+.form {
+  &-container {
+    width: 100%;
+    box-sizing: border-box;
+
+    &::before, &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    & * {
+      box-sizing: border-box;
+    }
+  }
+
+  &-textarea,
+  &-button {
+    border: .5px solid black;
+  }
+
+  &-textarea {
+    width: 100%;
+    padding: .5rem;
+    display: block;
+    resize: none;
+    overflow: hidden;
+    border: 0;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  &-counter {
+    float: left;
+    font-size: .75em;
+    color: $counter-chars-color;
+  }
+
+  &-button {
+    float: right;
+    padding: .5rem;
+    min-width: 6rem;
+    background-color: $button-color;
+
+    &:hover:not([disabled]) {
+      cursor: pointer;
+      background-color: color($button-color blackness(30%));
+    }
+  }
+}
+
+.textarea {
+  &-container {
+    width: 100%;
+    position: relative;
+    margin-bottom: .5rem;
+  }
+
+  &-header {
+    margin-bottom: .5rem;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+}
