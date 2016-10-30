@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import momentPlugin from './moment-plugin';
 import config from '../config';
 
 // extracts CSS
@@ -12,6 +13,7 @@ export const extructCSS = new ExtractTextPlugin(
 
 const plugins = [
   extructCSS,
+  momentPlugin,
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env': { NODE_ENV: JSON.stringify(config.NODE_ENV) },

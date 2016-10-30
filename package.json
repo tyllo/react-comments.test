@@ -22,6 +22,7 @@
     "es6-promise": "^3.3.1",
     "fetch-polyfill": "^0.8.2",
     "lodash": "^4.16.4",
+    "moment": "^2.15.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   },

@@ -1,12 +1,26 @@
 import * as requester from 'common/requester';
 
-export function sendComment(tree, data) {
+export function getComments(tree, data) {
   const cursor = tree.select('comments');
   cursor.set('isLoading', true);
 
-  requester.sendComment(data)
-  .then((/* response */) => {
-    // need save comment by id from response
+  requester.getComments(data)
+  .then(response => {
+    tree.set('comments', response);
+    return response;
+  }).catch((error) => {
+    cursor.set('error', error);
+    return error;
+  }).then(() => cursor.set('isLoading', false));
+}
+
+export function sendComment(tree, comment) {
+  const cursor = tree.select(['comments', 'comment']);
+  cursor.set('isLoading', true);
+
+  requester.sendComment(comment)
+  .then((response) => {
+    tree.select('comments').push(response);
     cursor.set('text', '');
   }).catch((/* error */) => {
     // need set error response

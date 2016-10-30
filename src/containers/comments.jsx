@@ -23,7 +23,12 @@ const branchTo = branch({
 class CommentsContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.getComments();
     this.sendComment = this.sendComment.bind(this);
+  }
+
+  getComments() {
+    this.props.dispatch(actions.getComments);
   }
 
   sendComment(data) {

@@ -10,8 +10,6 @@ import Textarea from './textarea';
 import CSSModules from 'react-css-modules';
 import style from './style.scss';
 
-console.log(style);
-
 const stateTypes = {
   text: React.PropTypes.string.isRequired,
 };
@@ -26,7 +24,7 @@ const defaultState = {
   text: '',
 };
 
-class CommentsForm extends React.Component {
+class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = defaultState;
@@ -55,7 +53,7 @@ class CommentsForm extends React.Component {
     return (
     <form name='comments' action=''
       onSubmit={this.sendComment}
-      styleName='comments-container'>
+      styleName='form-container'>
 
       <header styleName='textarea-header'>
         Leave Comment:
@@ -69,7 +67,7 @@ class CommentsForm extends React.Component {
       </main>
 
       <footer>
-        <Counter count={leftCount} />
+        {this.props.textLimit && <Counter count={leftCount} />}
         <SendButton isDisabled={isDisabled} text={buttonText} />
       </footer>
 
@@ -77,9 +75,9 @@ class CommentsForm extends React.Component {
   }
 }
 
-export default CSSModules(CommentsForm, style);
+export default CSSModules(CommentForm, style);
 
 if (ENV.isDebug) {
-  CommentsForm.stateTypes = stateTypes;
-  CommentsForm.propTypes = propTypes;
+  CommentForm.stateTypes = stateTypes;
+  CommentForm.propTypes = propTypes;
 }

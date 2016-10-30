@@ -7,7 +7,7 @@ function SendButton(props) {
   return (
   <button
     type='submit'
-    styleName='comment-button'
+    styleName='form-button'
     disabled={props.isDisabled}>
     {props.text}
   </button>);

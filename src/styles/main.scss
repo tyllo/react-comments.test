@@ -4,3 +4,8 @@ body {
   color: #fff;
   background-color: #2B3E50;
 }
+
+:global section.comments {
+  max-width: 800px;
+  margin: 0 auto;
+}

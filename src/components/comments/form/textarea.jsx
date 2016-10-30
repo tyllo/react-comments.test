@@ -12,6 +12,10 @@ const propTypes = {
   sendComment: React.PropTypes.func.isRequired,
 };
 
+const defaultProps = {
+  textLimit: Number.MAX_VALUE,
+};
+
 class Textarea extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -27,14 +31,14 @@ class Textarea extends React.Component {
 
   onChange(e) {
     const textarea = e.target;
-    const text = textarea.value;
+    let text = textarea.value;
 
     if (text.length > this.props.textLimit) {
-      textarea.value = text.slice(0, this.props.textLimit - text.length);
-    } else {
-      this.autoResize(textarea);
+      // TODO: fix typo in center of text
+      textarea.value = text = text.slice(0, this.props.textLimit - text.length);
     }
 
+    this.autoResize(textarea);
     this.props.setText(text);
   }
 
@@ -49,7 +53,7 @@ class Textarea extends React.Component {
       rows='3' name='comment'
       onChange={this.onChange}
       onKeyDown={this.onKeyDown}
-      styleName='comment-textarea'
+      styleName='textarea-comment'
       value={this.props.text}
       placeholder='Placeholder text' />);
   }
@@ -57,6 +61,7 @@ class Textarea extends React.Component {
 
 export default CSSModules(Textarea, style);
 
+Textarea.defaultProps = defaultProps;
 if (ENV.isDebug) {
   Textarea.propTypes = propTypes;
 }

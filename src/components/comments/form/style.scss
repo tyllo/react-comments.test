@@ -1,5 +1,6 @@
-$button-color: lightgray;
-$counter-chars-color: $button-color;
+$color-button: lightgray;
+$color-button-active: color($color-button blackness(30%));
+$color-counter: $color-button;
 
 .form {
   &-container {
@@ -17,39 +18,28 @@ $counter-chars-color: $button-color;
     }
   }
 
-  &-textarea,
-  &-button {
-    border: .5px solid black;
-  }
-
-  &-textarea {
-    width: 100%;
-    padding: .5rem;
-    display: block;
-    resize: none;
-    overflow: hidden;
-    border: 0;
-    font-size: 1rem;
-    line-height: 1;
-  }
-
   &-counter {
     float: left;
     font-size: .75em;
-    color: $counter-chars-color;
+    color: $color-counter;
   }
 
   &-button {
     float: right;
     padding: .5rem;
     min-width: 6rem;
-    background-color: $button-color;
+    background-color: $color-button;
 
     &:hover:not([disabled]) {
       cursor: pointer;
-      background-color: color($button-color blackness(30%));
+      background-color: $color-button-active;
     }
   }
+}
+
+.form-button,
+.textarea-comment {
+  border: .5px solid black;
 }
 
 .textarea {
@@ -63,5 +53,16 @@ $counter-chars-color: $button-color;
     margin-bottom: .5rem;
     font-size: 1.2em;
     font-weight: bold;
+  }
+
+  &-comment {
+    width: 100%;
+    padding: .5rem;
+    display: block;
+    resize: none;
+    overflow: hidden;
+    border: 0;
+    font-size: 1rem;
+    line-height: 1;
   }
 }

@@ -5,7 +5,7 @@ import style from './style.scss';
 
 function Counter(props) {
   return (
-  <div styleName='comment-counter'>
+  <div styleName='form-counter'>
     Characters: {props.count}
   </div>);
 }
