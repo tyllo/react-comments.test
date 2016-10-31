@@ -15,8 +15,12 @@ const stateTypes = {
 };
 
 const propTypes = {
-  textLimit: React.PropTypes.number.isRequired,
-  isLoading: React.PropTypes.bool.isRequired,
+  comment: React.PropTypes.shape({
+    isLoading: React.PropTypes.bool.isRequired,
+  }),
+  settings: React.PropTypes.shape({
+    textLimit: React.PropTypes.number.isRequired,
+  }),
   sendComment: React.PropTypes.func.isRequired,
 };
 
@@ -46,9 +50,9 @@ class CommentForm extends React.Component {
 
   render() {
     const text = this.state.text;
-    const leftCount = this.props.textLimit - text.length;
-    const isDisabled = !text.length || this.props.isLoading;
-    const buttonText = this.props.isLoading ? 'SENDING...' : 'SEND';
+    const leftCount = this.props.settings.textLimit - text.length;
+    const isDisabled = !text.length || this.props.comment.isLoading;
+    const buttonText = this.props.comment.isLoading ? 'SENDING...' : 'SEND';
 
     return (
     <form name='comments' action=''
@@ -63,11 +67,11 @@ class CommentForm extends React.Component {
         <Textarea {...this.props} text={text}
           setText={this.setText}
           sendComment={this.sendComment} />
-        {this.props.isLoading && <Spinner />}
+        {this.props.comment.isLoading && <Spinner />}
       </main>
 
       <footer>
-        {this.props.textLimit && <Counter count={leftCount} />}
+        {this.props.settings.textLimit && <Counter count={leftCount} />}
         <SendButton isDisabled={isDisabled} text={buttonText} />
       </footer>
 

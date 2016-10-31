@@ -1,12 +1,14 @@
 import * as requester from 'common/requester';
 
+const MODEL_NAME = 'comments';
+
 export function getComments(tree, data) {
-  const cursor = tree.select('comments');
+  const cursor = tree.select(MODEL_NAME);
   cursor.set('isLoading', true);
 
   requester.getComments(data)
   .then(response => {
-    tree.set('comments', response);
+    tree.set(MODEL_NAME, response);
     return response;
   }).catch((error) => {
     cursor.set('error', error);
@@ -14,31 +16,26 @@ export function getComments(tree, data) {
   }).then(() => cursor.set('isLoading', false));
 }
 
-export function sendComment(tree, comment) {
-  const cursor = tree.select(['comments', 'comment']);
-  cursor.set('isLoading', true);
+export function sendComment(tree, data) {
+  const cursor = tree.select(MODEL_NAME);
+  cursor.set(['comment', 'isLoading'], true);
 
-  requester.sendComment(comment)
+  requester.sendComment(data)
   .then((response) => {
-    tree.select('comments').push(response);
-    cursor.set('text', '');
-  }).catch((/* error */) => {
-    // need set error response
-  }).then(() => cursor.set('isLoading', false));
+    return cursor.push(['comments'], response);
+  }).catch((error) => {
+    cursor.set(['comment', 'error'], error);
+  }).then(() => cursor.set(['comment', 'isLoading'], false));
 }
 
-export function deleteComment(tree, idComment) {
-  const cursor = tree.select(['comments', 'comments']);
+export function deleteComment(tree, id) {
+  const cursor = tree.select([MODEL_NAME, 'comments']);
 
-  requester.deleteComment(idComment)
+  requester.deleteComment(id)
   .then((/* response */) => {
-    const comment = cursor.get().find(({ id }) => id === idComment);
+    const comment = cursor.get().find((el) => el.id === id);
     cursor.unset(comment);
-  }).catch((/* error */) => {
-    // need set error response
+  }).catch((error) => {
+    cursor.set('error', error);
   }).then(() => cursor.set('isLoading', false));
-}
-
-export function setText(tree, text) {
-  tree.select('comments').set('text', text);
 }

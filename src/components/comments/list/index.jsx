@@ -11,10 +11,12 @@ const stateTypes = {
 };
 
 const propTypes = {
+  settings: React.PropTypes.shape({
+    textExpendLimit: React.PropTypes.number.isRequired,
+    isAdmin: React.PropTypes.bool.isRequired,
+  }),
   comments: React.PropTypes.array.isRequired,
-  textExpendLimit: React.PropTypes.number.isRequired,
   deleteComment: React.PropTypes.func.isRequired,
-  isAdmin: React.PropTypes.bool.isRequired,
 };
 
 class CommentList extends React.Component {
@@ -28,9 +30,8 @@ class CommentList extends React.Component {
   renderItem(comment) {
     return <CommentItem
       {...comment}
-      isAdmin={this.props.isAdmin}
+      {...this.props.settings}
       deleteComment={this.props.deleteComment}
-      textExpendLimit={this.props.textExpendLimit}
       key={comment.id} />;
   }
 

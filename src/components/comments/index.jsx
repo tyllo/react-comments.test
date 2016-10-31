@@ -27,26 +27,24 @@ export default class CommentsComponent extends React.Component {
   }
 
   renderComments() {
-    const textExpendLimit = this.props.settings.textExpendLimit;
-    const textLimit = this.props.settings.textLimit;
-
     return (
     <section className='comments'>
       <CommentList
         comments={this.props.comments}
-        isAdmin={this.props.settings.isAdmin}
-        deleteComment={this.props.deleteComment}
-        textExpendLimit={textExpendLimit} />
+        settings={this.props.settings}
+        deleteComment={this.props.deleteComment} />
 
       <CommentForm
-        textLimit={textLimit}
-        isLoading={this.props.comment.isLoading}
+        comment={this.props.comment}
+        settings={this.props.settings}
         sendComment={this.props.sendComment} />
     </section>);
   }
 
   render() {
-    return this.props.isLoading ? this.renderLoading() : this.renderComments();
+    return this.props.isLoading
+      ? this.renderLoading()
+      : this.renderComments();
   }
 }
 

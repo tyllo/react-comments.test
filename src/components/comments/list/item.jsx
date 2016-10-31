@@ -66,14 +66,14 @@ class CommentList extends React.Component {
     return text;
   }
 
-  renderPic(email) {
+  renderPic(email, userPic) {
     const href = `mailto:${email}`;
-    const userPic = { backgroundImage: `url(${this.props.userPic})` };
+    const picStyle = userPic ? { backgroundImage: `url(${userPic})` } : null;
 
-    return email ? (
+    return email ?
     <a styleName='comment-email-link' href={href}>
-      <div styleName='comment-pic' style={userPic} />
-    </a>) : <div styleName='comment-pic' style={userPic} />;
+      <div styleName='comment-pic' style={picStyle} />
+    </a> : <div styleName='comment-pic' style={picStyle} />;
   }
 
   renderComment(text) {
@@ -124,7 +124,7 @@ class CommentList extends React.Component {
     <li styleName='comment-item' id={id}>
 
       <header styleName='comment-header'>
-        {this.renderPic(this.props.email)}
+        {this.renderPic(this.props.email, this.props.userPic)}
         <div styleName='comment-name'>
           {this.props.displayName}
         </div>
