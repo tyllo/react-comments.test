@@ -8,7 +8,7 @@ import CommentList from './list';
 import './style.scss';
 
 const stateTypes = {
-  editableComment: React.PropTypes.object,
+  replyComment: React.PropTypes.object,
 };
 
 const propTypes = {
@@ -28,25 +28,33 @@ export default class CommentsComponent extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      editableComment: null,
+      replyComment: null,
     };
     this.onSendComment = this.onSendComment.bind(this);
     this.onReplyToComment = this.onReplyToComment.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.comment.isLoading) {
+      this.setState({
+        replyComment: null,
+      });
+    }
+  }
+
   onSendComment(comment) {
-    const editableComment = this.state.editableComment;
+    const replyComment = this.state.replyComment;
     const newComment = Object.assign({}, comment, {
       userId: this.props.userId,
-      parentId: editableComment.userId,
-      level: editableComment.level + 1,
+      parentId: replyComment.userId,
+      level: replyComment.level + 1,
     });
-    this.props.sendComment(newComment);
+    this.props.sendComment(newComment, replyComment);
   }
 
   onReplyToComment(comment) {
     this.setState({
-      editableComment: comment,
+      replyComment: comment,
     });
   }
 
@@ -65,28 +73,20 @@ export default class CommentsComponent extends React.Component {
       sendComment={this.onSendComment} />;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.comment.isLoading) {
-      this.setState({
-        editableComment: null,
-      });
-    }
-  }
-
   renderComments() {
-    const editableComment = this.state.editableComment;
-    const commentForm = this.renderCommentForm(editableComment);
+    const replyComment = this.state.replyComment;
+    const commentForm = this.renderCommentForm(replyComment);
 
     return (
     <section className='comments'>
       <CommentList
         comments={this.props.comments}
         settings={this.props.settings}
-        CommentForm={editableComment && commentForm}
+        CommentForm={replyComment && commentForm}
         onReplyToComment={this.onReplyToComment}
         deleteComment={this.props.deleteComment} />
 
-      {!editableComment && commentForm}
+      {!replyComment && commentForm}
 
     </section>);
   }

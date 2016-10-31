@@ -74,11 +74,12 @@ $comment-gap: 2rem;
     }
   }
 
-  &-main, &-footer {
+  &-main, &-footer, &-children {
     margin-left: $user-pic + .5rem;
   }
 
   &-footer {
+    margin-bottom: 1rem;
 
     &::before, &::after {
       content: '';

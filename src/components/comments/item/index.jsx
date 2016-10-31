@@ -19,6 +19,7 @@ const propTypes = {
   textExpendLimit: React.PropTypes.number.isRequired,
   deleteComment: React.PropTypes.func.isRequired,
   onReplyToComment: React.PropTypes.func.isRequired,
+  children: React.PropTypes.element,
   CommentForm: React.PropTypes.element,
 };
 
@@ -148,6 +149,8 @@ class CommentItem extends React.Component {
         {isNeedReply && this.renderReplyLink(id)}
         {this.state.isReply && this.props.CommentForm}
       </footer>
+
+      <div styleName='comment-children'>{this.props.children}</div>
     </li>);
   }
 }

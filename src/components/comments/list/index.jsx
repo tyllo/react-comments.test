@@ -22,21 +22,37 @@ const propTypes = {
 };
 
 class CommentList extends React.Component {
-  renderList(comments = []) {
-    return (
-    <ul styleName='comment-list'>
-      {comments.map(this.renderItem.bind(this))}
-    </ul>);
+  findСhildren(comments = [], userId, index) {
+    return comments.filter((comment, i) => {
+      return i > index && comment.parentId === userId;
+    });
   }
 
-  renderItem(comment) {
-    return <CommentItem
+  renderList(comments) {
+    return comments ? (
+    <ul styleName='comment-list'>
+      {comments.map(this.renderItem.bind(this))}
+    </ul>) : null;
+  }
+
+  renderItem(comment, i, comments) {
+    !comment.userId && console.log('comment', comment, i);
+
+    const children = comment.childrenCount
+      && this.findСhildren(comments, comment.userId, i);
+
+    return (
+    <CommentItem
       {...this.props.settings}
+      key={comment.id}
       comment={comment}
       CommentForm={this.props.CommentForm}
       onReplyToComment={this.props.onReplyToComment}
-      deleteComment={this.props.deleteComment}
-      key={comment.id} />;
+      deleteComment={this.props.deleteComment}>
+
+    {this.renderList(children)}
+
+    </CommentItem>);
   }
 
   renderEmpty() {
@@ -48,7 +64,9 @@ class CommentList extends React.Component {
 
   render() {
     const comments = this.props.comments;
-    return comments.length ? this.renderList(comments) : this.renderEmpty();
+    return comments.length
+      ? this.renderList(comments)
+      : this.renderEmpty();
   }
 }
 
