@@ -6,6 +6,10 @@ import filterTime from 'common/filter-time';
 import CSSModules from 'react-css-modules';
 import style from './style.scss';
 
+const stateTypes = {
+  isExpanded: React.PropTypes.bool.isRequired,
+};
+
 const propTypes = {
   comment: React.PropTypes.shape({
     id: React.PropTypes.number.isRequired,
@@ -16,6 +20,7 @@ const propTypes = {
     email: React.PropTypes.string,
   }),
   isAdmin: React.PropTypes.bool.isRequired,
+  isReply: React.PropTypes.bool.isRequired,
   textExpendLimit: React.PropTypes.number.isRequired,
   deleteComment: React.PropTypes.func.isRequired,
   onReplyToComment: React.PropTypes.func.isRequired,
@@ -28,7 +33,6 @@ class CommentItem extends React.Component {
     super(props, context);
     this.state = {
       isExpanded: props.comment.text.length < props.textExpendLimit,
-      isReply: false,
     };
     this.onMoreButton = this.onMoreButton.bind(this);
     this.onReplyToComment = this.onReplyToComment.bind(this);
@@ -53,12 +57,6 @@ class CommentItem extends React.Component {
 
   onReplyToComment(e) {
     e.preventDefault();
-
-    const newState = Object.assign({}, this.state, {
-      isReply: true,
-    });
-
-    this.setState(newState);
     this.props.onReplyToComment(this.props.comment);
   }
 
@@ -127,7 +125,7 @@ class CommentItem extends React.Component {
     const comment = this.props.comment;
     const time = filterTime(comment.createdAt);
     const text = this.filterText(comment.text);
-    const isNeedReply = this.state.isExpanded && !this.state.isReply;
+    const isNeedReply = this.state.isExpanded && !this.props.isReply;
     const isNeedDelete = this.state.isExpanded && this.props.isAdmin;
     const id = 'comment-' + comment.id;
 
@@ -147,10 +145,12 @@ class CommentItem extends React.Component {
       <footer styleName='comment-footer'>
         {isNeedDelete && this.renderDeleteLink(id)}
         {isNeedReply && this.renderReplyLink(id)}
-        {this.state.isReply && this.props.CommentForm}
       </footer>
 
-      <div styleName='comment-children'>{this.props.children}</div>
+      <div styleName='comment-children'>
+        {this.props.isReply && this.props.CommentForm}
+        {this.props.children}
+      </div>
     </li>);
   }
 }
@@ -158,5 +158,6 @@ class CommentItem extends React.Component {
 export default CSSModules(CommentItem, style);
 
 if (ENV.isDebug) {
+  CommentItem.stateTypes = stateTypes;
   CommentItem.propTypes = propTypes;
 }

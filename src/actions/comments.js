@@ -44,12 +44,20 @@ export function sendComment(tree, newComment, replyComment) {
 }
 
 export function deleteComment(tree, comment) {
-  const cursor = tree.select([MODEL_NAME, 'comments']);
+  const cursor = tree.select(MODEL_NAME);
+  cursor.set('isLoading', false);
 
   requester.deleteComment(comment)
   .then((/* response */) => {
-    // TODO: delete all children
-    cursor.unset(comment);
+    // TODO: delete recursively
+    const commentsCursor = cursor.select('comments');
+    const comments = commentsCursor.get().filter(item => {
+      return item.parentId === comment.userId;
+    }) || [];
+
+    comments.concat(comment).forEach(item => {
+      commentsCursor.unset(item);
+    });
   }).catch((error) => {
     ENV.isDebug && console.log('deleteComment error:', error);
     cursor.set('error', error);

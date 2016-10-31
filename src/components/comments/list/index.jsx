@@ -19,38 +19,52 @@ const propTypes = {
   onReplyToComment: React.PropTypes.func.isRequired,
   deleteComment: React.PropTypes.func.isRequired,
   CommentForm: React.PropTypes.element,
+  replyComment: React.PropTypes.object.isRequired,
 };
 
+const EMPTY_ARR = Object.freeze([]);
+
 class CommentList extends React.Component {
-  findСhildren(comments = [], userId, index) {
-    return comments.filter((comment, i) => {
-      return i > index && comment.parentId === userId;
+  findСhildren(comments = EMPTY_ARR, id) {
+    return comments.filter((comment) => {
+      return comment.parentId === id;
     });
   }
 
-  renderList(comments) {
+  renderList(originComments, comments = EMPTY_ARR, level = 0) {
+    const commentItems = originComments.map((comment) => {
+      return comment.level === level
+        ? this.renderItem(originComments, comments, comment)
+        : null;
+    });
+
     return comments ? (
     <ul styleName='comment-list'>
-      {comments.map(this.renderItem.bind(this))}
+      {commentItems}
     </ul>) : null;
   }
 
-  renderItem(comment, i, comments) {
-    !comment.userId && console.log('comment', comment, i);
-
+  renderItem(originComments, comments, comment) {
     const children = comment.childrenCount
-      && this.findСhildren(comments, comment.userId, i);
+      && this.findСhildren(comments, comment.id) || null;
+
+    const renderedChildren = children
+      && this.renderList(originComments, children, comment.level + 1);
+
+    const isReply = this.props.replyComment
+      && this.props.replyComment.id === comment.id;
 
     return (
     <CommentItem
       {...this.props.settings}
       key={comment.id}
       comment={comment}
+      isReply={isReply}
       CommentForm={this.props.CommentForm}
       onReplyToComment={this.props.onReplyToComment}
       deleteComment={this.props.deleteComment}>
 
-    {this.renderList(children)}
+    {renderedChildren}
 
     </CommentItem>);
   }
