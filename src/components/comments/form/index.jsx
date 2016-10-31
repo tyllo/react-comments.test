@@ -39,7 +39,6 @@ class CommentForm extends React.Component {
   sendComment(e) {
     e.preventDefault();
     this.props.sendComment({
-      // monkey from baobab
       text: this.state.text,
     });
   }

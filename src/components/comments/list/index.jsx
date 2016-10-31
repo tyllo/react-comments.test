@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import CommentItem from './item';
+import CommentItem from '../item';
 
 import CSSModules from 'react-css-modules';
 import style from './style.scss';
@@ -16,7 +16,9 @@ const propTypes = {
     isAdmin: React.PropTypes.bool.isRequired,
   }),
   comments: React.PropTypes.array.isRequired,
+  onReplyToComment: React.PropTypes.func.isRequired,
   deleteComment: React.PropTypes.func.isRequired,
+  CommentForm: React.PropTypes.element,
 };
 
 class CommentList extends React.Component {
@@ -29,15 +31,17 @@ class CommentList extends React.Component {
 
   renderItem(comment) {
     return <CommentItem
-      {...comment}
       {...this.props.settings}
+      comment={comment}
+      CommentForm={this.props.CommentForm}
+      onReplyToComment={this.props.onReplyToComment}
       deleteComment={this.props.deleteComment}
       key={comment.id} />;
   }
 
   renderEmpty() {
     return (
-    <div styleName='commets-empty'>
+    <div styleName='commet-list--empty'>
       There are no comments yet
     </div>);
   }

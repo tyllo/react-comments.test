@@ -28,12 +28,11 @@ export function sendComment(tree, data) {
   }).then(() => cursor.set(['comment', 'isLoading'], false));
 }
 
-export function deleteComment(tree, id) {
+export function deleteComment(tree, comment) {
   const cursor = tree.select([MODEL_NAME, 'comments']);
 
-  requester.deleteComment(id)
+  requester.deleteComment(comment)
   .then((/* response */) => {
-    const comment = cursor.get().find((el) => el.id === id);
     cursor.unset(comment);
   }).catch((error) => {
     cursor.set('error', error);

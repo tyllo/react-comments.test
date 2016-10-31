@@ -36,8 +36,8 @@ class CommentsContainer extends React.Component {
     this.props.dispatch(actions.sendComment, data);
   }
 
-  deleteComment(id) {
-    this.props.dispatch(actions.deleteComment, id);
+  deleteComment(comment) {
+    this.props.dispatch(actions.deleteComment, comment);
   }
 
   render() {
