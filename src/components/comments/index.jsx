@@ -12,8 +12,10 @@ const propTypes = {
   settings: React.PropTypes.shape({
     textLimit: React.PropTypes.number.isRequired,
     textExpendLimit: React.PropTypes.number.isRequired,
+    isAdmin: React.PropTypes.bool.isRequired,
   }),
   sendComment: React.PropTypes.func.isRequired,
+  deleteComment: React.PropTypes.func.isRequired,
 };
 
 export default class CommentsComponent extends React.Component {
@@ -32,6 +34,8 @@ export default class CommentsComponent extends React.Component {
     <section className='comments'>
       <CommentList
         comments={this.props.comments}
+        isAdmin={this.props.settings.isAdmin}
+        deleteComment={this.props.deleteComment}
         textExpendLimit={textExpendLimit} />
 
       <CommentForm

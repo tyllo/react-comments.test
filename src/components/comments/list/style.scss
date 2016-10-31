@@ -97,6 +97,13 @@ $comment-gap: 2rem;
   }
 
   &-footer {
+
+    &::before, &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
     form {
       margin-top: 1rem;
     }
@@ -138,10 +145,22 @@ $comment-gap: 2rem;
     }
   }
 
-  &-reply-link {
-    display: block;
+  &-delete-link {
+    display: inline-block;
     margin-top: 1rem;
-    text-align: right;
+    float: left;
+    font-size: .8em;
+    color: lightgrey;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &-reply-link {
+    display: inline-block;
+    margin-top: 1rem;
+    float: right;
     font-size: .8em;
     color: lightgrey;
 

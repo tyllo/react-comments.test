@@ -25,6 +25,7 @@ class CommentsContainer extends React.Component {
     super(props, context);
     this.getComments();
     this.sendComment = this.sendComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   getComments() {
@@ -35,9 +36,14 @@ class CommentsContainer extends React.Component {
     this.props.dispatch(actions.sendComment, data);
   }
 
+  deleteComment(id) {
+    this.props.dispatch(actions.deleteComment, id);
+  }
+
   render() {
     return <CommentsComponent
       {...this.props.comments}
+      deleteComment={this.deleteComment}
       sendComment={this.sendComment}/>;
   }
 }

@@ -27,6 +27,18 @@ export function sendComment(tree, comment) {
   }).then(() => cursor.set('isLoading', false));
 }
 
+export function deleteComment(tree, idComment) {
+  const cursor = tree.select(['comments', 'comments']);
+
+  requester.deleteComment(idComment)
+  .then((/* response */) => {
+    const comment = cursor.get().find(({ id }) => id === idComment);
+    cursor.unset(comment);
+  }).catch((/* error */) => {
+    // need set error response
+  }).then(() => cursor.set('isLoading', false));
+}
+
 export function setText(tree, text) {
   tree.select('comments').set('text', text);
 }

@@ -13,6 +13,7 @@ export function CreateComments({ results }) {
       maxLevel: 3,
       textLimit: 600,
       textExpendLimit: 140,
+      isAdmin: true,
     },
     comment: {
       text: '',

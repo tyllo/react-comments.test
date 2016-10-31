@@ -25,3 +25,11 @@ export function getComments(/* data */) {
     .then(response => response.json())
     .then(CreateComments);
 }
+
+export function deleteComment(idComment) {
+  return new Promise(res => {
+    setTimeout(() => {
+      res(idComment);
+    }, 2000);
+  });
+}

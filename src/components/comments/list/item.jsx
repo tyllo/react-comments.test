@@ -15,7 +15,9 @@ const propTypes = {
   displayName: React.PropTypes.string.isRequired,
   userPic: React.PropTypes.string,
   email: React.PropTypes.string,
+  isAdmin: React.PropTypes.bool.isRequired,
   textExpendLimit: React.PropTypes.number.isRequired,
+  deleteComment: React.PropTypes.func.isRequired,
 };
 
 class CommentList extends React.Component {
@@ -27,6 +29,7 @@ class CommentList extends React.Component {
     };
     this.onClick = this.onClick.bind(this);
     this.replyComment = this.replyComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   onClick() {
@@ -49,6 +52,10 @@ class CommentList extends React.Component {
     });
 
     this.setState(newState);
+  }
+
+  deleteComment() {
+    this.props.deleteComment(this.props.id);
   }
 
   filterText(text) {
@@ -96,10 +103,21 @@ class CommentList extends React.Component {
     </a>);
   }
 
+  renderDeleteLink(id) {
+    const href = '#delete-' + id;
+    return (
+    <a href={href}
+      styleName='comment-delete-link'
+      onClick={this.deleteComment}>
+      Delete comment
+    </a>);
+  }
+
   render() {
     const time = filterTime(this.props.createdAt);
     const text = this.filterText(this.props.text);
     const isNeedReply = this.state.isExpanded && !this.state.isReply;
+    const isNeedDelete = this.state.isExpanded && this.props.isAdmin;
     const id = 'comment-' + this.props.id;
 
     return (
@@ -116,6 +134,7 @@ class CommentList extends React.Component {
       {this.renderComment(text)}
 
       <footer styleName='comment-footer'>
+        {isNeedDelete && this.renderDeleteLink(id)}
         {isNeedReply && this.renderReplyLink(id)}
         {this.state.isReply && <CommentForm />}
       </footer>

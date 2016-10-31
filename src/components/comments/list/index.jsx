@@ -13,6 +13,8 @@ const stateTypes = {
 const propTypes = {
   comments: React.PropTypes.array.isRequired,
   textExpendLimit: React.PropTypes.number.isRequired,
+  deleteComment: React.PropTypes.func.isRequired,
+  isAdmin: React.PropTypes.bool.isRequired,
 };
 
 class CommentList extends React.Component {
@@ -26,6 +28,8 @@ class CommentList extends React.Component {
   renderItem(comment) {
     return <CommentItem
       {...comment}
+      isAdmin={this.props.isAdmin}
+      deleteComment={this.props.deleteComment}
       textExpendLimit={this.props.textExpendLimit}
       key={comment.id} />;
   }
