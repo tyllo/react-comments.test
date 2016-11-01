@@ -5,7 +5,7 @@ export const cssLoader = {
   sourceMap: config.isDevelopment,
   modules: true,
   importLoaders: true,
-  localIdentName: config.isDevelopment ? '[path]-[local]-[hash:5]' : '[hash:5]',
+  localIdentName: config.isDevelopment ? '[local]' : '[local]-[hash:5]',
 };
 
 function toQuery(obj) {
@@ -42,9 +42,10 @@ loaders.url = {
   // include: [/images/],
   loader: 'url',
   query: {
-    limit: 3 * 1024,
+    limit: 5 * 1024,
     name: config.isDevelopment
       ? config.assets.images + '/[name].[ext]'
+      // TODO: relativity path for images
       : config.assets.images + '/[name]-[hash:5].[ext]',
   },
 };
