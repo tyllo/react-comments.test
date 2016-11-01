@@ -3,6 +3,8 @@
 import React from 'react';
 import filterTime from 'common/filter-time';
 
+import LinkText from '../link-text';
+
 import CSSModules from 'react-css-modules';
 import style from './style.scss';
 
@@ -65,9 +67,9 @@ class CommentItem extends React.Component {
     this.props.deleteComment(this.props.comment);
   }
 
-  filterText(text) {
+  filterText(text, limit) {
     if (!this.state.isExpanded) {
-      return text.slice(0, this.props.textExpendLimit - text.length) + '...';
+      return text.slice(0, limit - text.length) + '...';
     }
 
     return text;
@@ -78,7 +80,7 @@ class CommentItem extends React.Component {
     const picStyle = userPic ? { backgroundImage: `url(${userPic})` } : null;
 
     return email ?
-    <a styleName='comment-email-link' href={href}>
+    <a styleName='comment-link--email' href={href}>
       <div styleName='comment-pic' style={picStyle} />
     </a> : <div styleName='comment-pic' style={picStyle} />;
   }
@@ -86,7 +88,9 @@ class CommentItem extends React.Component {
   renderComment(text) {
     return (
     <main styleName='comment-main'>
-      <p ref='text' styleName='comment-text'>{text}</p>
+      <p ref='text' styleName='comment-text'>
+        <LinkText styleName='comment-link--text' text={text} />
+      </p>
       {!this.state.isExpanded && this.renderMoreButton()}
     </main>);
   }
@@ -124,7 +128,7 @@ class CommentItem extends React.Component {
   render() {
     const comment = this.props.comment;
     const time = filterTime(comment.createdAt);
-    const text = this.filterText(comment.text);
+    const text = this.filterText(comment.text, this.props.textExpendLimit);
     const isNeedReply = this.state.isExpanded && !this.props.isReply;
     const isNeedDelete = this.state.isExpanded && this.props.isAdmin;
     const id = 'comment-' + comment.id;

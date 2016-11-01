@@ -2,6 +2,7 @@ $user-pic: 2.5rem;
 $color-time: lightgrey;
 $color-comment-line: $color-time;
 $comment-gap: 2rem;
+$color-link-text: orchid;
 
 .comment {
   &-item {
@@ -33,7 +34,7 @@ $comment-gap: 2rem;
     }
   }
 
-  &-email-link, &-pic {
+  &-link--email, &-pic {
     width: $user-pic;
     height: $user-pic;
     margin-right: .5rem;
@@ -44,7 +45,7 @@ $comment-gap: 2rem;
     border: .5px solid lightgrey;
   }
 
-  &-email-link {
+  &-link--email {
     div {
       border: none;
 
@@ -149,6 +150,17 @@ $comment-gap: 2rem;
 
     &:hover {
       text-decoration: none;
+    }
+  }
+
+  &-link--text {
+    display: inline-block;
+    color: $color-link-text;
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+
+    &:hover {
+      border-bottom-color: transparent;
     }
   }
 }
