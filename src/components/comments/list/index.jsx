@@ -31,9 +31,12 @@ class CommentList extends React.Component {
     });
   }
 
-  renderList(originComments, comments = EMPTY_ARR, level = 0) {
+  renderList(originComments, comments = [], level = 0, id = null) {
     const commentItems = originComments.map((comment) => {
-      return comment.level === level
+      const isHaveChildren = id !== null
+        ? comment.parentId === id : comment.level === level;
+
+      return isHaveChildren
         ? this.renderItem(originComments, comments, comment)
         : null;
     });
@@ -46,10 +49,10 @@ class CommentList extends React.Component {
 
   renderItem(originComments, comments, comment) {
     const children = comment.childrenCount
-      && this.findСhildren(comments, comment.id) || null;
+      && this.findСhildren(originComments, comment.id) || null;
 
     const renderedChildren = children
-      && this.renderList(originComments, children, comment.level + 1);
+      && this.renderList(originComments, children, comment.level + 1, comment.id);
 
     const isReply = this.props.replyComment
       && this.props.replyComment.id === comment.id;
