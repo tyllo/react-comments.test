@@ -45,8 +45,14 @@ export default class CommentsComponent extends React.Component {
     }
   }
 
-  getLevel(level, maxLevel = Number.MAX_SAFE_INTEGER) {
-    return level + 1 < maxLevel ? level + 1 : maxLevel - 1;
+  getLevel(replyComment = EMPTY_OBJ, maxLevel = Number.MAX_SAFE_INTEGER) {
+    const { level } = replyComment;
+
+    if (level !== undefined) {
+      return level + 1 < maxLevel ? level + 1 : maxLevel - 1;
+    }
+
+    return level;
   }
 
   onSendComment(comment) {
@@ -55,9 +61,9 @@ export default class CommentsComponent extends React.Component {
     const newComment = Object.assign({}, comment, {
       userId: this.props.userId,
       parentId: replyComment.id,
-      level: this.getLevel(replyComment.level, maxLevel),
+      level: this.getLevel(replyComment, maxLevel),
     });
-    this.props.sendComment(newComment, replyComment);
+    this.props.sendComment(newComment, this.state.replyComment);
   }
 
   onReplyToComment(comment) {

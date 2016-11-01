@@ -36,6 +36,13 @@ class CommentForm extends React.Component {
     this.sendComment = this.sendComment.bind(this);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.comment.isLoading === false
+      && this.props.comment.isLoading === true) {
+      this.setState({ text: '' });
+    }
+  }
+
   sendComment(e) {
     e.preventDefault();
     this.props.sendComment({
