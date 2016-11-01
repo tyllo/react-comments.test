@@ -29,6 +29,6 @@ export function deleteComment(idComment) {
   return new Promise(res => {
     setTimeout(() => {
       res(idComment);
-    }, 2000);
+    }, 500);
   });
 }

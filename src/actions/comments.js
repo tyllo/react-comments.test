@@ -52,7 +52,7 @@ export function deleteComment(tree, comment) {
     // TODO: delete recursively
     const commentsCursor = cursor.select('comments');
     const comments = commentsCursor.get().filter(item => {
-      return item.parentId === comment.userId;
+      return item.parentId === comment.id;
     }) || [];
 
     comments.concat(comment).forEach(item => {
