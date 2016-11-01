@@ -79,6 +79,12 @@ $color-link-text: orchid;
     margin-left: $user-pic + .5rem;
   }
 
+  @media screen and (max-width: 480px) {
+    &-children {
+      margin-left: auto;
+    }
+  }
+
   &-footer {
     margin-bottom: 1rem;
 
