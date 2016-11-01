@@ -72,6 +72,7 @@ class CommentForm extends React.Component {
       <main styleName='textarea-container'>
         <Textarea {...this.props} text={text}
           setText={this.setText}
+          textLimit={this.props.settings.textLimit}
           sendComment={this.sendComment} />
         {this.props.comment.isLoading && <Spinner />}
       </main>
