@@ -11,6 +11,9 @@ $color-link-text: orchid;
     word-break: break-word;
     word-wrap: break-word;
 
+    animation-duration: .5s;
+    animation-name: fadeIn;
+
     margin-bottom: $comment-gap;
     &:last-child {
       margin-bottom: 0;
@@ -79,6 +82,11 @@ $color-link-text: orchid;
     margin-left: $user-pic + .5rem;
   }
 
+  &-children--form {
+    overflow: hidden;
+    transition: 1s ease;
+  }
+
   @media screen and (max-width: 480px) {
     &-children {
       margin-left: auto;
@@ -126,7 +134,6 @@ $color-link-text: orchid;
       padding: .5rem;
       background-color: rgba(0,0,0,.2);
       text-align: center;
-      transition: 1 ease;
 
       &:hover {
         cursor: pointer;
@@ -168,5 +175,17 @@ $color-link-text: orchid;
     &:hover {
       border-bottom-color: transparent;
     }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    margin-top: -2rem;
+    opacity: 0;
+  }
+
+  100% {
+    margin-top: 0;
+    opacity: 1;
   }
 }

@@ -48,6 +48,7 @@ class CommentItem extends React.Component {
     const newState = Object.assign({}, this.state, {
       isExpanded: true,
     });
+
     const node = this.refs.text;
     node.style.maxHeight = node.offsetHeight + 'px';
 
@@ -60,7 +61,21 @@ class CommentItem extends React.Component {
 
   onReplyToComment(e) {
     e.preventDefault();
-    this.props.onReplyToComment(this.props.comment);
+    const comment = this.props.isReplyForm
+      ? null : this.props.comment;
+    this.props.onReplyToComment(comment);
+
+    const node = this.refs.commentChildrenForm;
+    node.style.maxHeight = comment ? '0px' : '1000px';
+
+    // TODO: unset timeouts wen destroy
+    setTimeout(() => {
+      node.style.maxHeight = comment ? '1000px' : '0px';
+    }, 10);
+
+    setTimeout(() => {
+      node.style.maxHeight = 'auto';
+    }, 10);
   }
 
   onDeleteComment(e) {
@@ -106,12 +121,14 @@ class CommentItem extends React.Component {
 
   renderReplyLink(id) {
     const href = '#reply-' + id;
+    const text = this.props.isReplyForm
+      ? 'Cancel reply' : 'Reply to comment';
 
     return (
     <a href={href}
       styleName='comment-link--reply'
       onClick={this.onReplyToComment}>
-      Reply to comment
+      {text}
     </a>);
   }
 
@@ -157,7 +174,9 @@ class CommentItem extends React.Component {
       {this.state.isExpanded && this.renderFooter(id)}
 
       <div styleName='comment-children'>
-        {isNeedReplyForm && this.props.CommentForm}
+        <div ref='commentChildrenForm' styleName='comment-children--form'>
+          {isNeedReplyForm && this.props.CommentForm}
+        </div>
         {this.props.children}
       </div>
     </li>);
