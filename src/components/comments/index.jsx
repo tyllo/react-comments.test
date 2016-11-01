@@ -52,7 +52,7 @@ export default class CommentsComponent extends React.Component {
       return level + 1 < maxLevel ? level + 1 : maxLevel - 1;
     }
 
-    return level;
+    return 0;
   }
 
   onSendComment(comment) {
