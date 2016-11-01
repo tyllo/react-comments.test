@@ -14,6 +14,7 @@ const propTypes = {
   settings: React.PropTypes.shape({
     textExpendLimit: React.PropTypes.number.isRequired,
     isAdmin: React.PropTypes.bool.isRequired,
+    maxLevel: React.PropTypes.number.isRequired,
   }),
   comments: React.PropTypes.array.isRequired,
   onReplyToComment: React.PropTypes.func.isRequired,
@@ -54,15 +55,19 @@ class CommentList extends React.Component {
     const renderedChildren = children
       && this.renderList(originComments, children, comment.level + 1, comment.id);
 
-    const isReply = this.props.replyComment
+    const isReplyForm = this.props.replyComment
       && this.props.replyComment.id === comment.id;
+
+    const isNeedReplyLink = comment.level + 1 < this.props.settings.maxLevel;
 
     return (
     <CommentItem
       {...this.props.settings}
       key={comment.id}
       comment={comment}
-      isReply={isReply}
+      isReplyForm={isReplyForm}
+      isNeedReplyLink={isNeedReplyLink}
+      maxLevel={this.props.settings.maxLevel}
       CommentForm={this.props.CommentForm}
       onReplyToComment={this.props.onReplyToComment}
       deleteComment={this.props.deleteComment}>

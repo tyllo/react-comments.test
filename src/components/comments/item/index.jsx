@@ -22,7 +22,8 @@ const propTypes = {
     email: React.PropTypes.string,
   }),
   isAdmin: React.PropTypes.bool.isRequired,
-  isReply: React.PropTypes.bool.isRequired,
+  isReplyForm: React.PropTypes.bool.isRequired,
+  isNeedReplyLink: React.PropTypes.bool.isRequired,
   textExpendLimit: React.PropTypes.number.isRequired,
   deleteComment: React.PropTypes.func.isRequired,
   onReplyToComment: React.PropTypes.func.isRequired,
@@ -125,12 +126,19 @@ class CommentItem extends React.Component {
     </a>);
   }
 
+  renderFooter(id) {
+    return (
+    <footer styleName='comment-footer'>
+      {this.props.isAdmin && this.renderDeleteLink(id)}
+      {this.props.isNeedReplyLink && this.renderReplyLink(id)}
+    </footer>);
+  }
+
   render() {
     const comment = this.props.comment;
     const time = filterTime(comment.createdAt);
     const text = this.filterText(comment.text, this.props.textExpendLimit);
-    const isNeedReply = this.state.isExpanded && !this.props.isReply;
-    const isNeedDelete = this.state.isExpanded && this.props.isAdmin;
+    const isNeedReplyForm = this.state.isExpanded && this.props.isReplyForm;
     const id = 'comment-' + comment.id;
 
     return (
@@ -146,13 +154,10 @@ class CommentItem extends React.Component {
 
       {this.renderComment(text)}
 
-      <footer styleName='comment-footer'>
-        {isNeedDelete && this.renderDeleteLink(id)}
-        {isNeedReply && this.renderReplyLink(id)}
-      </footer>
+      {this.state.isExpanded && this.renderFooter(id)}
 
       <div styleName='comment-children'>
-        {this.props.isReply && this.props.CommentForm}
+        {isNeedReplyForm && this.props.CommentForm}
         {this.props.children}
       </div>
     </li>);

@@ -19,10 +19,14 @@ const propTypes = {
     textLimit: React.PropTypes.number.isRequired,
     textExpendLimit: React.PropTypes.number.isRequired,
     isAdmin: React.PropTypes.bool.isRequired,
-    maxLevel: React.PropTypes.number.isRequired,
+    maxLevel: React.PropTypes.number,
   }),
   sendComment: React.PropTypes.func.isRequired,
   deleteComment: React.PropTypes.func.isRequired,
+};
+
+const defaultProps = {
+  maxLevel: Number.MAX_SAFE_INTEGER,
 };
 
 const EMPTY_OBJ = Object.freeze({});
@@ -45,7 +49,7 @@ export default class CommentsComponent extends React.Component {
     }
   }
 
-  getLevel(replyComment = EMPTY_OBJ, maxLevel = Number.MAX_SAFE_INTEGER) {
+  getLevel(replyComment = EMPTY_OBJ, maxLevel) {
     const { level } = replyComment;
 
     if (level !== undefined) {
@@ -116,4 +120,5 @@ export default class CommentsComponent extends React.Component {
 if (ENV.isDebug) {
   CommentsComponent.stateTypes = stateTypes;
   CommentsComponent.propTypes = propTypes;
+  CommentsComponent.defaultProps = defaultProps;
 }
